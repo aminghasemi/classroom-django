@@ -1,0 +1,89 @@
+{% extends 'registration/base.html' %}
+{% load crispy_forms_tags %}
+{% block main %}
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title">
+              <i class="fas fa-edit"></i>
+              {% block title %}{{post.Name}}{% endblock %}
+            </h3>
+          </div>
+            <nav class="navbar navbar-expand navbar-primary navbar-dark">
+              <!-- Left navbar links -->
+              <ul class="navbar-nav">
+                <li class="nav-item d-none d-sm-inline-block">
+                  <a href="../../index3.html" class="nav-link">داشبورد کلاس</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                  <a href="{% url 'account:comment' post.slug   %}" class="nav-link">گفتگو‌ها</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                  <a href="{% url 'account:classwork'  post.slug  %}" class="nav-link">تکالیف</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                  <a href="#" class="nav-link">سرفصل‌ها</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                  <a href="{% url 'account:student' post.slug %}" class="nav-link">دانش‌آموزان</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                  <a href="{% url 'account:teachers' post.slug %}" class="nav-link">اساتید</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <!-- /.card -->
+
+
+      <!-- /.col -->
+
+<div class="card">
+<div class="col-md-12 ">
+  <div class="card-body">
+    <!-- comments -->
+    <p> تعداد گفتگو‌ها: {{ comments.count }}</p>
+
+    {% for comment in comments %}
+    <div class="card">
+    <div class="comments" style="padding: 10px;">
+      <p class="font-weight-bold"> موضوع: {{ comment.name }}</p>
+      <p class="font-weight-bold"> نام نظردهنده: {{ comment.creator.get_full_name }}</p>
+      <span class=" text-muted font-weight-normal">تاریخ:  {{ comment.jcreated_on }}</span>
+      <p>{{ comment.body | safe }}</p>
+    </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<div class="col-md-12 ">
+  <div class="card-body">
+    {% if new_comment %}
+    <div class="alert alert-success" role="alert">
+      نظر شما در قسمت گفتگو‌های کلاس قرار داده شد.
+    </div>
+    {% else %}
+    <h6>نظر جدید قرار دهید:</h6>
+    <form method="post" style="margin-top: 1.3em;">
+      {{ comment_form| crispy }}
+      {% csrf_token %}
+      <button type="submit" class="btn btn-primary  btn-sm">ارسال</button>
+    </form>
+    {% endif %}
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+</section>
+
+
+
+
+
+
+{% endblock %}

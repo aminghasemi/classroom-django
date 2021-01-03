@@ -1,0 +1,236 @@
+{% extends 'registration/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+{{ClassesList.subject}}
+{% endblock %}
+
+
+{% block main %}
+<body id="page-top">
+
+
+    <!-- ======= Blog Single Section ======= -->
+    <div class="card card-primary card-outline">
+      <div class="tab-custom-content">
+
+      </div>
+
+      <ul class="nav nav-tabs" id="custom-content-above-tab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="custom-content-above-home-tab" data-toggle="pill" href="#custom-content-above-home" role="tab" aria-controls="custom-content-above-home" aria-selected="true">گفتگوهای کلاس</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="custom-content-above-profile-tab" data-toggle="pill" href="#custom-content-above-profile" role="tab" aria-controls="custom-content-above-profile" aria-selected="false">تکالیف</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="custom-content-above-messages-tab" data-toggle="pill" href="#custom-content-above-messages" role="tab" aria-controls="custom-content-above-messages" aria-selected="false">دانش‌آموزان</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="custom-content-above-settings-tab" data-toggle="pill" href="#custom-content-above-settings" role="tab" aria-controls="custom-content-above-settings" aria-selected="false">اساتید</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="custom-content-above-headings-tab" data-toggle="pill" href="#custom-content-above-headings" role="tab" aria-controls="custom-content-above-headings" aria-selected="false">سرفصل‌ها</a>
+        </li>
+      </ul>
+
+
+      <div class="tab-custom-content">
+      </div>
+      <div class="tab-content" id="custom-content-above-tabContent">
+        <div class="tab-pane fade show active" id="custom-content-above-home" role="tabpanel" aria-labelledby="custom-content-above-home-tab">
+
+          <div class="col-md-8 card mb-4  mt-3 ">
+            <div class="card-body">
+              <!-- comments -->
+              <p> تعداد گفتگو‌ها: {{ comments.count }}</p>
+
+              {% for comment in comments %}
+              <div class="comments" style="padding: 10px;">
+                <p class="font-weight-bold">
+                  {{ comment.name }}
+                  <span class=" text-muted font-weight-normal">
+                    {{ comment.jcreated_on }}
+                  </span>
+                </p>
+                {{ comment.body | safe }}
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="col-md-8 card mb-4  mt-3 ">
+            <div class="card-body">
+              {% if new_comment %}
+              <div class="alert alert-success" role="alert">
+                نظر شما در قسمت گفتگو‌های کلاس قرار داده شد.
+              </div>
+              {% else %}
+              <h4>کامنت جدید ایجاد کنید</h4>
+              <form method="post" style="margin-top: 1.3em;">
+                {{ comment_form| crispy }}
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary  btn-sm">ارسال</button>
+              </form>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="custom-content-above-profile" role="tabpanel" aria-labelledby="custom-content-above-profile-tab">
+
+                    <div class="col-md-8 card mb-4  mt-3 ">
+                      <div class="card-body">
+                        <!-- comments -->
+                        <p>  تعداد تکالیف: {{ class_works.count }}</p>
+
+                        {% for classworks_post in class_works %}
+                        <div class="comments" style="padding: 10px;">
+                          <p class="font-weight-bold">
+                            {{ classworks_post.classworks_name }}
+                            <span class=" text-muted font-weight-normal">
+                              {{ classworks_post.classworks_jcreated_on }}
+                            </span>
+                          </p>
+                          {{ classworks_post.classworks_body | safe }}
+                        </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                    <div class="col-md-8 card mb-4  mt-3 ">
+                      <div class="card-body">
+                        {% if new_classworks %}
+                        <div class="alert alert-success" role="alert">
+                            تکلیف جدید در قسمت تکالیف وارد شد
+                        </div>
+                        {% else %}
+                        <h4>کامنت جدید ایجاد کنید</h4>
+                        <form method="post" style="margin-top: 1.3em;">
+                          {{ classworks_form| crispy }}
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-primary  btn-sm">ارسال</button>
+                        </form>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+        <div class="tab-pane fade" id="custom-content-above-messages" role="tabpanel" aria-labelledby="custom-content-above-messages-tab">
+          <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">لیست دانش‌آموزان عضو در کلاس</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body p-0">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>نام دانش‌آموز</th>
+                      <th>نام کاربری</th>
+                      <th>تاریخ عضویت</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for student in students %}
+                    <tr>
+                      <td>{{ student.student_profile }}</td>
+                      <td>{{ student.student_profile }}</td>
+                      <td>{{ student.date }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-8 card mb-4  mt-3 ">
+                <div class="card-body">
+                  {% if new_student %}
+                  <div class="alert alert-success" role="alert">
+                      اضافه کردن دانش آموز جدید
+                  </div>
+                  {% else %}
+                  <p>نام کاربری دانش‌آموز را اضافه کنید</p>
+                  <form method="post" style="margin-top: 1.3em;">
+                    {{ enroll_form| crispy }}
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary  btn-sm">ارسال</button>
+                  </form>
+                  {% endif %}
+                </div>
+              </div>
+
+              <!-- /.card-body -->
+            </div>
+          </div>
+
+
+
+
+
+
+        <div class="tab-pane fade" id="custom-content-above-settings" role="tabpanel" aria-labelledby="custom-content-above-settings-tab">
+            <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">لیست اساتید کلاس</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>نام استاد</th>
+                        <th>نام کاربری</th>
+                        <th>تاریخ عضویت</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for teacher in teachers %}
+                      <tr>
+                        <td>{{ teacher.teacher_profile }}</td>
+                        <td>{{ teacher.teacher_profile }}</td>
+                        <td>{{ teacher.date }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                </div>
+                <div class="col-md-8 card mb-4  mt-3 ">
+                  <div class="card-body">
+                    {% if new_teacher %}
+                    <div class="alert alert-success" role="alert">
+                        اضافه کردن استاد جدید
+                    </div>
+                    {% else %}
+                    <p>نام کاربری استاد را وارد کنید:</p>
+                    <form method="post" style="margin-top: 1.3em;">
+                      {{ teacherenroll_form | crispy }}
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-primary  btn-sm">ارسال</button>
+                    </form>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <!-- /.card-body -->
+            </div>
+    </div>
+    <div class="tab-pane fade" id="custom-content-above-headings" role="tabpanel" aria-labelledby="custom-content-above-headings-tab">
+      <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">لیست سرفصل‌های کلاس</h3>
+        <div class="card-body table-responsive p-0">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>سرفصل‌ها</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for HeadingsList in object_list %}
+                <tr>
+                  <td>{{HeadingsList.headings_name}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+    </div>
+{% endblock %}

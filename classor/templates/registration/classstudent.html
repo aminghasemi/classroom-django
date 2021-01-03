@@ -1,0 +1,94 @@
+{% extends 'registration/base.html' %}
+{% load crispy_forms_tags %}
+{% block main %}
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title">
+              <i class="fas fa-edit"></i>
+              {% block title %}{{classroom.Name}}{% endblock %}
+            </h3>
+          </div>
+            <nav class="navbar navbar-expand navbar-primary navbar-dark">
+              <!-- Left navbar links -->
+              <ul class="navbar-nav">
+                <li class="nav-item d-none d-sm-inline-block">
+                  <a href="../../index3.html" class="nav-link">داشبورد کلاس</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                  <a href="{% url 'account:comment'  classroom.slug  %}" class="nav-link">گفتگو‌ها</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                  <a href="{% url 'account:classwork' classroom.slug %}" class="nav-link">تکالیف</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                  <a href="#" class="nav-link">سرفصل‌ها</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                  <a href="{% url 'account:student' classroom.slug %}" class="nav-link">دانش‌آموزان</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                  <a href="{% url 'account:teachers' classroom.slug %}" class="nav-link">اساتید</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <!-- /.card -->
+  <div class="card">
+    <div class="card-header">
+  <!--    {% if request.user|has_group:"teachers" %}
+        <a class="btn btn-primary btn-sm" href="{% url 'account:enroll_student' %}" role="button">افزودن دانش‌آموز جدید</a>
+      {% endif%}
+      -->
+        <h3 class="card-title">لیست دانش آموزان کلاس</h3>
+          </div>
+    <div class="card-body p-0">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>نام دانش‌آموز</th>
+            <th>نام کاربری</th>
+            <th>تاریخ عضویت</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for student in students %}
+          <tr>
+            <td>{{ student.student_profile.get_full_name }}</td>
+            <td>{{ student.student_profile }}</td>
+            <td>{{ student.date }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% if request.user|has_group:"teachers" %}
+    <div class="col-md-12">
+      <div class="card-body">
+        {% if new_student %}
+        <div class="alert alert-success" role="alert">
+          کاربر انتخاب شده به عنوان دانش‌آموز جدید به کلاس اضافه شد.
+        </div>
+        {% else %}
+        <p>نام کاربری دانش‌آموز را وارد کنید:</p>
+
+          <form method="post" style="margin-top: 1.3em;">
+          {{ enroll_form | crispy }}
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary  btn-sm">ارسال</button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+    {% endif%}
+
+  </div>
+  </div>
+  </div>
+
+  </section>
+{% endblock %}

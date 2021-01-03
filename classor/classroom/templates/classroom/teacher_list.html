@@ -1,0 +1,12 @@
+{% extends 'classroom/list.html' %}
+{% block header %}
+  <h3 class="alert alert-primary text-center">لیست اساتید: {{teacher.get_full_name}}</h3>
+{% endblock %}
+
+{% block previous_page_url %}
+  {% url 'classroom:teacher' teacher.username page_obj.previous_page_number %}
+{% endblock %}
+
+{% block previous_page_url %}
+  {% url 'classroom:teacher' teacher.username page_obj.next_page_number %}
+{% endblock %}  

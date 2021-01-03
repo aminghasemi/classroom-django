@@ -1,0 +1,104 @@
+{% extends 'registration/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title">
+              <i class="fas fa-edit"></i>
+              {% block title %}{{teacherclassroom.Name}}{% endblock %}
+            </h3>
+          </div>
+            <nav class="navbar navbar-expand navbar-primary navbar-dark">
+              <!-- Left navbar links -->
+              <ul class="navbar-nav">
+                <li class="nav-item d-none d-sm-inline-block">
+                  <a href="../../index3.html" class="nav-link">داشبورد کلاس</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                  <a href="{% url 'account:comment'  teacherclassroom.slug  %}" class="nav-link">گفتگو‌ها</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                  <a href="{% url 'account:classwork' teacherclassroom.slug %}" class="nav-link">تکالیف</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                  <a href="#" class="nav-link">سرفصل‌ها</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                  <a href="{% url 'account:student' teacherclassroom.slug %}" class="nav-link">دانش‌آموزان</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                  <a href="{% url 'account:teachers' teacherclassroom.slug %}" class="nav-link">اساتید</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <!-- /.card -->
+
+    <div class="card">
+        <div class="card-header">
+          <!--
+          {% for teacher in teachers %}
+            {% if request.user == teacher.teacher_profile %}
+              <a class="btn btn-primary btn-sm" href="{% url 'account:enroll_teacher' %}" role="button">افزودن استاد جدید</a>
+            {% endif %}
+          {% endfor %}
+          {% if request.user.is_superuser or request.user == creator.teacherclassroom %}
+            <a class="btn btn-primary btn-sm" href="{% url 'account:enroll_teacher' %}" role="button">افزودن استاد جدید</a>
+            {% endif %} -->
+          <h3 class="card-title">لیست اساتید کلاس</h3>
+        </div>
+
+        <!-- /.card-header -->
+        <div class="card-body p-0">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>نام استاد</th>
+                <th>نام کاربری</th>
+                <th>تاریخ عضویت</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for teacher in teachers %}
+              <tr>
+                <td>{{ teacher.teacher_profile.get_full_name }}</td>
+                <td>{{ teacher.teacher_profile }}</td>
+                <td>{{ teacher.date }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% for teacher in teachers %}
+        {% if request.user == teacher.teacher_profile or request.user == creator.teacherclassroom or request.user.is_superuser %}
+        <div class="col-md-12">
+          <div class="card-body">
+            {% if new_teacher %}
+            <div class="alert alert-success" role="alert">
+                کاربر انتخاب شده به عنوان استاد به کلاس اضافه شد.
+            </div>
+            {% else %}
+            <p>نام کاربری استاد را وارد کنید:</p>
+            <form method="post" style="margin-top: 1.3em;">
+              {{ teacherenroll_form | crispy }}
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary  btn-sm">ارسال</button>
+            </form>
+              {% endif %}
+          </div>
+        </div>
+      </div>
+      </div>
+      </div>
+          {% endif %}
+          {% endfor %}
+
+      </section>
+
+        <!-- /.card-body -->
+{% endblock %}

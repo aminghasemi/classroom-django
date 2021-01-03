@@ -1,0 +1,14 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}
+لیست کلاس‌ها
+{% endblock %}
+
+
+{% block main %}
+<form method="post">{% csrf_token %}
+    <p>آیا از حذف کلاس "{{object}}" اطمینان دارید؟</p>
+    <button type="submit" class="btn btn-primary  btn-sm">حذف</button>
+</form>
+
+{% endblock %}

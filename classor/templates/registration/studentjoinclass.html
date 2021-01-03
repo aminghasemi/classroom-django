@@ -1,0 +1,17 @@
+{% extends 'registration/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+ایجاد کلاس جدید
+{% endblock %}
+
+
+{% block main %}
+      <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+        <div class="row">
+          <div class="col-12">
+            {{form|crispy}}
+          </div>
+        </div>
+            <button class="btn btn-success">عضویت در کلاس</button>
+          </form>
+{% endblock %}

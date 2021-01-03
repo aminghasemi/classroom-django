@@ -1,0 +1,72 @@
+{% extends 'classroom/base.html' %}
+{% load static%}
+
+
+
+{% block main %}
+
+
+
+
+    <!-- ======= Portfolio Section ======= -->
+
+
+    <section id="work" class="portfolio-mf sect-pt4 route">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="title-box text-center">
+              <h3 class="title-a">
+                لیست کلاس‌ها
+              </h3>
+              <p class="subtitle-a">
+                لیست کلاس‌هایی که در آن‌ها عضو هستید.
+              </p>
+              <div class="line-mf"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          {% for Classdetails in Class %}
+          <div class="col-md-4">
+
+            <div class="work-box">
+
+              <a href="{% url 'classrooms:class_details' Classdetails.slug %}" >
+                <div class="work-img">
+                  <img src="{{Classdetails.thumbnail.url}}" alt="" class="img-fluid" >
+                </div>
+                <div class="work-content">
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <h1 class="w-title">{{Classdetails.Name}}</h1>
+                      <div class="w-more">
+                        <p class="w-ctegory">نام استاد: {{Classdetails.teacher.get_full_name}}</p>
+                      </div>
+                      <div class="w-more">
+                        <span class="w-date">تاریخ عضویت: {{Classdetails.jcreated_time}}</span>
+                      </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                      <div class="w-like">
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          {% endfor %}
+
+    </section><!-- End Portfolio Section -->
+
+
+
+
+  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+  <div id="preloader"></div>
+
+
+{% endblock %}

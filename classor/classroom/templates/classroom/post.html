@@ -1,0 +1,60 @@
+{% extends 'classroom/base.html' %}
+{% load static%}
+
+{% block title %} |
+{{Classdetails.Name}}
+ {% endblock %}
+{% block main %}
+
+<header class="masthead" style="background-image: url('{{Classdetails.thumbnail.url}}')">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="site-heading">
+          <h1>{{Classdetails.Name}}</h1>
+          <span class="subheading">{{Classdetails.section}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<article>
+
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" href="#">Active</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Link</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Link</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+    </li>
+  </ul>
+
+
+
+
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+      {{Classdetails.posts|linebreaks}}
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+      {{Classdetails.classwork|linebreaks}}
+      </div>
+    </div>
+  </div>
+</article>
+
+{% endblock %}

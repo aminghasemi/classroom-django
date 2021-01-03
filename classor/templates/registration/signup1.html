@@ -1,0 +1,100 @@
+
+  <h2>Sign up</h2>
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <p>
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% if field.help_text %}
+
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+    <button type="submit">Sign up</button>
+  </form>
+
+
+
+  <form method="POST">
+      <div class="form-row m-b-55">
+          <div class="name">نام و نام خانوادگی</div>
+          <div class="value">
+              <div class="row row-space">
+                  <div class="col-2">
+                      <div class="input-group-desc">
+                          {{form.username|add_class:"input--style-5"}}
+
+                          <label class="label--desc">نام</label>
+                      </div>
+                  </div>
+                  <div class="col-2">
+                      <div class="input-group-desc">
+                          {{form.username|add_class:"input--style-5"}}
+                          <label class="label--desc">نام خانوادگی</label>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="form-row">
+          <div class="name">نام کاربری</div>
+          <div class="value">
+              <div class="input-group">
+                  {{form.username|add_class:"input--style-5"}}
+              </div>
+          </div>
+      </div>
+      <div class="form-row">
+          <div class="name">رمز عبور</div>
+          <div class="value">
+              <div class="input-group">
+                  {{form.password|add_class:"input--style-5"}}
+              </div>
+          </div>
+      </div>
+      <div class="form-row">
+          <div class="name">ایمیل</div>
+          <div class="value">
+              <div class="input-group">
+                  {{form.email|add_class:"input--style-5"}}
+              </div>
+          </div>
+      </div>
+      <div class="form-row">
+          <div class="name">Subject</div>
+          <div class="value">
+              <div class="input-group">
+                  <div class="rs-select2 js-select-simple select--no-search">
+                      <select name="subject">
+                          <option disabled="disabled" selected="selected">Choose option</option>
+                          <option>Subject 1</option>
+                          <option>Subject 2</option>
+                          <option>Subject 3</option>
+                      </select>
+                      <div class="select-dropdown"></div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+
+      
+      def signup(request):
+          if request.method == 'POST':
+              form = SignUpForm(request.POST)
+              if form.is_valid():
+                  user = form.save()
+                  user.refresh_from_db()  # load the profile instance created by the signal
+                  user.profile.birth_date = form.cleaned_data.get('birth_date')
+                  user.save()
+                  raw_password = form.cleaned_data.get('password1')
+                  user = authenticate(username=user.username, password=raw_password)
+                  login(request, user)
+                  return redirect('home')
+          else:
+              form = SignUpForm()
+          return render(request, 'registration/signup.html', {'form': form})

@@ -1,0 +1,13 @@
+@import url(fonts.css);
+
+body {
+  direction: rtl !important;
+  text-align= right !important;
+  font-family: "IRANSans-web" !important;
+}
+.myfont, .input100, .txt1, .txt2, .wrap-input100 {
+  font-family: "IRANSans-web" !important;
+}
+.alert-validate .focus-input100 {
+  position: left !important;
+}
