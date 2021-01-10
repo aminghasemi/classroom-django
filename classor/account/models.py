@@ -40,6 +40,9 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True, verbose_name='درباره کاربر')
     location = models.CharField(max_length=30, blank=True, verbose_name='شهرستان')
     birth_date = models.DateField(null=True, blank=True, verbose_name='تاریخ تولید')
+    phone_number=models.CharField(max_length=11,unique=True, null=True, verbose_name='شماره همراه')
+    national_code=models.IntegerField(max_length=10,unique=True, null=True, verbose_name='کد ملی')
+
 
 
     def __str__(self):  # __unicode__ for Python 2
